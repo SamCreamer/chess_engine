@@ -7,3 +7,8 @@ class Hopkins:
 
     def legal_moves(self):
         return self.board.legal_moves
+
+
+
+def main():
+    pass
