@@ -89,6 +89,9 @@ class Hopkins:
         material_eval = PIECE_VALUES[chess.PAWN] * (white_pawns - black_pawns) + PIECE_VALUES[chess.KNIGHT] * (white_knights - black_knights) + PIECE_VALUES[chess.BISHOP] * (white_bishops - black_bishops) + PIECE_VALUES[chess.ROOK] * (white_rooks - black_rooks) + PIECE_VALUES[chess.QUEEN] * (white_queens - black_queens)
         return material_eval
 
+    def piece_square_eval(self, board: chess.Board) -> float:
+        pass
+
     def evaluate(self, board: chess.Board) -> float:
         """
         This method evaluates a chess position given a chess.Board object
