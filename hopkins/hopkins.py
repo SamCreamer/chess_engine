@@ -2,7 +2,27 @@ import chess
 import random
 
 
-PIECE_VALUES = {'P': 10, 'K': 25, 'B': 30, 'R': 50, 'Q': 90, 'K': 900}
+PIECE_VALUES = {'P': 10, 'N': 25, 'B': 30, 'R': 50, 'Q': 90, 'K': 900}
+PIECE_SQUARE_TABLES = {
+    'P': {
+
+    },
+    'N' : {
+
+    },
+    'B': {
+
+    },
+    'R': {
+
+    },
+    'Q': {
+
+    },
+    'K': {
+    
+    }
+}
 
 
 class Hopkins:
