@@ -2,6 +2,9 @@ import chess
 import random
 
 
+PIECE_VALUES = {'P': 10, 'K': 25, 'B': 30, 'R': 50, 'Q': 90, 'K': 900}
+
+
 class Hopkins:
     @staticmethod
     def get_move(pos: str):
