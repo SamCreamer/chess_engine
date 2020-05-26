@@ -1,10 +1,9 @@
 import chess
-import random
 
 
-PIECE_VALUES = {'P': 10, 'N': 25, 'B': 30, 'R': 50, 'Q': 90, 'K': 900}
+PIECE_VALUES = {chess.PAWN: 10, chess.KNIGHT: 28, chess.BISHOP: 30, chess.ROOK: 50, chess.QUEEN: 90, chess.KING: 900}
 PIECE_SQUARE_TABLES = {
-    'P': [
+    chess.PAWN: [
          0,  0,  0,  0,  0,  0,  0,  0,
         50, 50, 50, 50, 50, 50, 50, 50,
         10, 10, 20, 30, 30, 20, 10, 10,
@@ -14,7 +13,7 @@ PIECE_SQUARE_TABLES = {
          5, 10, 10,-20,-20, 10, 10,  5,
          0,  0,  0,  0,  0,  0,  0,  0
     ],
-    'N' : [
+    chess.KNIGHT : [
         -50,-40,-30,-30,-30,-30,-40,-50,
         -40,-20,  0,  0,  0,  0,-20,-40,
         -30,  0, 10, 15, 15, 10,  0,-30,
@@ -24,7 +23,7 @@ PIECE_SQUARE_TABLES = {
         -40,-20,  0,  5,  5,  0,-20,-40,
         -50,-40,-30,-30,-30,-30,-40,-50,
     ],
-    'B': [
+    chess.BISHOP: [
         -20,-10,-10,-10,-10,-10,-10,-20,
         -10,  0,  0,  0,  0,  0,  0,-10,
         -10,  0,  5, 10, 10,  5,  0,-10,
@@ -34,7 +33,7 @@ PIECE_SQUARE_TABLES = {
         -10,  5,  0,  0,  0,  0,  5,-10,
         -20,-10,-10,-10,-10,-10,-10,-20,
     ],
-    'R': [
+    chess.ROOK: [
           0,  0,  0,  0,  0,  0,  0,  0,
           5, 10, 10, 10, 10, 10, 10,  5,
          -5,  0,  0,  0,  0,  0,  0, -5,
@@ -44,7 +43,7 @@ PIECE_SQUARE_TABLES = {
          -5,  0,  0,  0,  0,  0,  0, -5,
           0,  0,  0,  5,  5,  0,  0,  0
     ],
-    'Q': [
+    chess.QUEEN: [
         -20,-10,-10, -5, -5,-10,-10,-20,
         -10,  0,  0,  0,  0,  0,  0,-10,
         -10,  0,  5,  5,  5,  5,  0,-10,
@@ -54,7 +53,7 @@ PIECE_SQUARE_TABLES = {
         -10,  0,  5,  0,  0,  0,  0,-10,
         -20,-10,-10, -5, -5,-10,-10,-20
     ],
-    'K': [
+    chess.KING: [
         -30,-40,-40,-50,-50,-40,-40,-30,
         -30,-40,-40,-50,-50,-40,-40,-30,
         -30,-40,-40,-50,-50,-40,-40,-30,
@@ -68,7 +67,29 @@ PIECE_SQUARE_TABLES = {
 
 
 class Hopkins:
-    def evaluate(self, board):
+    def material_eval(self, board: chess.Board) -> float:
+        """
+        A part of evaluating the position, this calculates the material evaluation of the position
+        Keyword arguments:
+            board -- A chess.Board object representing the state of a chess game
+        """
+        # Count material
+        white_pawns = len(board.pieces(chess.PAWN, chess.WHITE))
+        white_knights = len(board.pieces(chess.KNIGHT, chess.WHITE))
+        white_bishops = len(board.pieces(chess.BISHOP, chess.WHITE))
+        white_rooks = len(board.pieces(chess.ROOK, chess.WHITE))
+        white_queens = len(board.pieces(chess.QUEEN, chess.WHITE))
+
+        black_pawns = len(board.pieces(chess.PAWN, chess.WHITE))
+        black_knights = len(board.pieces(chess.KNIGHT, chess.WHITE))
+        black_bishops = len(board.pieces(chess.BISHOP, chess.WHITE))
+        black_rooks = len(board.pieces(chess.ROOK, chess.WHITE))
+        black_queens = len(board.pieces(chess.QUEEN, chess.WHITE))
+
+        material_eval = PIECE_VALUES[chess.PAWN] * (white_pawns - black_pawns) + PIECE_VALUES[chess.KNIGHT] * (white_knights - black_knights) + PIECE_VALUES[chess.BISHOP] * (white_bishops - black_bishops) + PIECE_VALUES[chess.ROOK] * (white_rooks - black_rooks) + PIECE_VALUES[chess.QUEEN] * (white_queens - black_queens)
+        return material_eval
+
+    def evaluate(self, board: chess.Board) -> float:
         """
         This method evaluates a chess position given a chess.Board object
         Keyword arguments:
@@ -79,12 +100,12 @@ class Hopkins:
                 return -9999
             else:
                 return 9999
-        if board.is_stalemate():
-            return 0
-        if board.is_insufficient_material():
+        if board.is_stalemate() or board.is_insufficient_material():
             return 0
 
-        return 0
+        material_eval = self.material_eval(board)
+
+        return material_eval
 
     def get_move(self, pos: str):
         """
@@ -99,5 +120,9 @@ class Hopkins:
 
         legal_moves = list(board.legal_moves)
 
-        # To start, just return a random move
-        return random.choice(legal_moves)
+        best = None
+        best_eval = 0.0
+        for i in legal_moves:
+            pass
+
+        return best
