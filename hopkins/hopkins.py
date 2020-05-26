@@ -117,6 +117,7 @@ class Hopkins:
             board = chess.Board(pos)
         except ValueError:
             print('Invalid FEN!')
+            return
 
         legal_moves = list(board.legal_moves)
 
