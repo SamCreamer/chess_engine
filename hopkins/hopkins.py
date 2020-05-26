@@ -20,14 +20,31 @@ PIECE_SQUARE_TABLES = {
 
     },
     'K': {
-    
+
     }
 }
 
 
 class Hopkins:
-    @staticmethod
-    def get_move(pos: str):
+    def evaluate(self, board):
+        """
+        This method evaluates a chess position given a chess.Board object
+        Keyword arguments:
+            board -- A chess.Board object representing the state of a chess game
+        """
+        if board.is_checkmate():
+            if board.turn:
+                return -9999
+            else:
+                return 9999
+        if board.is_stalemate():
+            return 0
+        if board.is_insufficient_material():
+            return 0
+
+        return 0
+
+    def get_move(self, pos: str):
         """
         This method takes in a chess position in FEN format and return a move
         Keyword arguments:
