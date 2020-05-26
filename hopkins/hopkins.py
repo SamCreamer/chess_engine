@@ -1,4 +1,5 @@
 import chess
+import random
 
 
 class Hopkins:
@@ -9,4 +10,12 @@ class Hopkins:
         Keyword arguments:
             pos -- An FEN string that represents the current position
         """
-        pass
+        try:
+            board = chess.Board(pos)
+        except ValueError:
+            print('Invalid FEN!')
+
+        legal_moves = list(board.legal_moves)
+
+        # To start, just return a random move
+        return random.choice(legal_moves)
