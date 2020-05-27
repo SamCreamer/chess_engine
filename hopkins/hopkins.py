@@ -77,26 +77,29 @@ PIECE_SQUARE_TABLES = {
 
 
 class Hopkins:
+    def position_piece_type_eval(self, board: chess.Board, piece: int) -> float:
+        """
+        Get's the eval for a specific piece type
+        Keyword arguments:
+            board -- A chess.Board object representing the state of a chess game
+            piece -- An integer representing a type of piece
+        """
+        return PIECE_VALUES[piece] * (len(board.pieces(piece, chess.WHITE)) - len(board.pieces(piece, chess.BLACK)))
+
     def material_eval(self, board: chess.Board) -> float:
         """
         A part of evaluating the position, this calculates the material evaluation of the position
         Keyword arguments:
             board -- A chess.Board object representing the state of a chess game
         """
+        # We don't care about kings for this eval
+        relevant_piece_types = [chess.PAWN, chess.KNIGHT, chess.BISHOP, chess.ROOK, chess.QUEEN]
+
         # Count material
-        white_pawns = len(board.pieces(chess.PAWN, chess.WHITE))
-        white_knights = len(board.pieces(chess.KNIGHT, chess.WHITE))
-        white_bishops = len(board.pieces(chess.BISHOP, chess.WHITE))
-        white_rooks = len(board.pieces(chess.ROOK, chess.WHITE))
-        white_queens = len(board.pieces(chess.QUEEN, chess.WHITE))
+        material_eval = 0.0
+        for piece_type in relevant_piece_types:
+            material_eval += self.position_piece_type_eval(board, piece_type)
 
-        black_pawns = len(board.pieces(chess.PAWN, chess.WHITE))
-        black_knights = len(board.pieces(chess.KNIGHT, chess.WHITE))
-        black_bishops = len(board.pieces(chess.BISHOP, chess.WHITE))
-        black_rooks = len(board.pieces(chess.ROOK, chess.WHITE))
-        black_queens = len(board.pieces(chess.QUEEN, chess.WHITE))
-
-        material_eval = PIECE_VALUES[chess.PAWN] * (white_pawns - black_pawns) + PIECE_VALUES[chess.KNIGHT] * (white_knights - black_knights) + PIECE_VALUES[chess.BISHOP] * (white_bishops - black_bishops) + PIECE_VALUES[chess.ROOK] * (white_rooks - black_rooks) + PIECE_VALUES[chess.QUEEN] * (white_queens - black_queens)
         return material_eval
 
     def piece_square_eval(self, board: chess.Board) -> float:
