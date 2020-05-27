@@ -78,7 +78,7 @@ PIECE_SQUARE_TABLES = {
 
 class Hopkins:
     @staticmethod
-    def whites_turn(board):
+    def whites_turn(board) -> bool:
         return board.turn
 
     @staticmethod
@@ -119,7 +119,7 @@ class Hopkins:
         white_piece_type_square_eval = sum([PIECE_SQUARE_TABLES[chess.square_mirror[square]] for square in chess.pieces(piece, chess.WHITE)])
         black_piece_type_square_eval = sum([PIECE_SQUARE_TABLES[square] for square in chess.pieces(piece, chess.BLACK)])
         return white_piece_type_square_eval - black_piece_type_square_eval
-        
+
     def piece_square_eval(self, board: chess.Board) -> float:
         """
         Get's the portion of the eval that takes into account the position of the pieces
@@ -154,6 +154,12 @@ class Hopkins:
         piece_square_eval = self.piece_square_eval(board)
 
         return (material_eval + piece_square_eval) / 10.0
+
+    @staticmethod
+    def quiesce(board: chess.Board):
+        """
+        Searches quiet moves at the end of the depth to avoid "Horizon Effect" https://www.chessprogramming.org/Quiescence_Search
+        """
 
     def get_move(self, pos: str, depth: int):
         """
