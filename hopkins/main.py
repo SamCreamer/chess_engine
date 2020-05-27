@@ -2,12 +2,9 @@ import chess
 from hopkins import Hopkins
 
 
-STARTING_FEN = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'
-
-
 def main():
     # Play a chess game against Hopkins
-    chess_board = chess.board
+    chess_board = chess.Board()
     hopkins = Hopkins()
 
     while True:
@@ -15,7 +12,7 @@ def main():
         # For now, Hopkins will only play with black
         # TODO: Fix this
         pass
-    print(hopkins.get_move(STARTING_FEN))
+    # print(hopkins.get_move(STARTING_FEN))
 
 
 if __name__ == '__main__':

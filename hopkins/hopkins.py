@@ -77,7 +77,12 @@ PIECE_SQUARE_TABLES = {
 
 
 class Hopkins:
-    def position_piece_type_eval(self, board: chess.Board, piece: int) -> float:
+    @staticmethod
+    def whites_turn(board):
+        return board.turn
+
+    @staticmethod
+    def position_piece_type_eval(board: chess.Board, piece: int) -> float:
         """
         Get's the eval for a specific piece type
         Keyword arguments:
@@ -103,6 +108,8 @@ class Hopkins:
         return material_eval
 
     def piece_square_eval(self, board: chess.Board) -> float:
+        relevant_piece_types = [chess.PAWN, chess.KNIGHT, chess.BISHOP, chess.ROOK, chess.QUEEN, chess.KING]
+
         return 0
 
     def evaluate(self, board: chess.Board) -> float:
@@ -112,7 +119,7 @@ class Hopkins:
             board -- A chess.Board object representing the state of a chess game
         """
         if board.is_checkmate():
-            if board.turn:
+            if self.whites_turn(board):
                 return -9999
             else:
                 return 9999
@@ -124,17 +131,14 @@ class Hopkins:
 
         return (material_eval + piece_square_eval) / 10.0
 
-    def get_move(self, pos: str):
+    def get_move(self, pos: str, depth: int):
         """
         This method takes in a chess position in FEN format and return a move
         Keyword arguments:
             pos -- An FEN string that represents the current position
+            depth -- The depth of calculation for this move
         """
-        try:
-            board = chess.Board(pos)
-        except ValueError:
-            print('Invalid FEN!')
-            return
+        board = chess.Board(pos)
 
         legal_moves = list(board.legal_moves)
 
