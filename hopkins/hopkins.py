@@ -156,10 +156,16 @@ class Hopkins:
         return (material_eval + piece_square_eval) / 10.0
 
     @staticmethod
-    def quiesce(board: chess.Board):
+    def quiesce(board: chess.Board, alpha: float, beta: float):
         """
         Searches quiet moves at the end of the depth to avoid "Horizon Effect" https://www.chessprogramming.org/Quiescence_Search
         """
+        pass
+
+
+    def minimax(self, board: chess.Board, alpha: float, beta: float):
+        pass
+
 
     def get_move(self, pos: str, depth: int):
         """
