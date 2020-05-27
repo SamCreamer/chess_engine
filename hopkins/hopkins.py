@@ -82,9 +82,9 @@ class Hopkins:
         return board.turn
 
     @staticmethod
-    def position_piece_type_eval(board: chess.Board, piece: int) -> float:
+    def position_piece_type_material_eval(board: chess.Board, piece: int) -> float:
         """
-        Get's the eval for a specific piece type
+        Get's the material count eval for a specific piece type
         Keyword arguments:
             board -- A chess.Board object representing the state of a chess game
             piece -- An integer representing a type of piece
@@ -101,16 +101,37 @@ class Hopkins:
         relevant_piece_types = [chess.PAWN, chess.KNIGHT, chess.BISHOP, chess.ROOK, chess.QUEEN]
 
         # Count material
-        material_eval = 0.0
+        material_eval_val = 0.0
         for piece_type in relevant_piece_types:
-            material_eval += self.position_piece_type_eval(board, piece_type)
+            material_eval_val += self.position_piece_type_eval(board, piece_type)
 
-        return material_eval
+        return material_eval_val
+
+    @staticmethod
+    def position_piece_type_square_eval(board: chess.Board, piece: int) -> float:
+        """
+        Get's the position eval from the squares of a piece type. Refers to the piece square tables.
+        Keyword arguments:
+            board -- A chess.Board object representing the state of a chess game
+            piece -- An integer representing a type of piece
+        """
+        pass
 
     def piece_square_eval(self, board: chess.Board) -> float:
+        """
+        Get's the portion of the eval that takes into account the position of the pieces
+        Keyword arguments:
+            board -- A chess.Board object representing the state of a chess game
+        """
         relevant_piece_types = [chess.PAWN, chess.KNIGHT, chess.BISHOP, chess.ROOK, chess.QUEEN, chess.KING]
 
-        return 0
+        piece_square_eval_val = 0.0
+
+        for piece_type in relevant_piece_types:
+            piece_square_eval_val += self.position_piece_type_square_eval(board, piece_type)
+
+        return piece_square_eval_val
+
 
     def evaluate(self, board: chess.Board) -> float:
         """
@@ -119,10 +140,10 @@ class Hopkins:
             board -- A chess.Board object representing the state of a chess game
         """
         if board.is_checkmate():
-            if self.whites_turn(board):
-                return -9999
+            if self.whites_turn(board):  # black is checkmated
+                return -1000000
             else:
-                return 9999
+                return 1000000
         if board.is_stalemate() or board.is_insufficient_material():
             return 0
 
