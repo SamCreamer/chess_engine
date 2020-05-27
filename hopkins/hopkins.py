@@ -103,7 +103,7 @@ class Hopkins:
         return material_eval
 
     def piece_square_eval(self, board: chess.Board) -> float:
-        pass
+        return 0
 
     def evaluate(self, board: chess.Board) -> float:
         """
@@ -120,8 +120,9 @@ class Hopkins:
             return 0
 
         material_eval = self.material_eval(board)
+        piece_square_eval = self.piece_square_eval(board)
 
-        return material_eval
+        return (material_eval + piece_square_eval) / 10.0
 
     def get_move(self, pos: str):
         """
