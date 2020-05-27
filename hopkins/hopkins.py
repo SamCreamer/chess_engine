@@ -115,8 +115,11 @@ class Hopkins:
             board -- A chess.Board object representing the state of a chess game
             piece -- An integer representing a type of piece
         """
-        pass
-
+        # We need to use square_mirror because of the way our piece square tables are oriented
+        white_piece_type_square_eval = sum([PIECE_SQUARE_TABLES[chess.square_mirror[square]] for square in chess.pieces(piece, chess.WHITE)])
+        black_piece_type_square_eval = sum([PIECE_SQUARE_TABLES[square] for square in chess.pieces(piece, chess.BLACK)])
+        return white_piece_type_square_eval - black_piece_type_square_eval
+        
     def piece_square_eval(self, board: chess.Board) -> float:
         """
         Get's the portion of the eval that takes into account the position of the pieces
