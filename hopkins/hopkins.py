@@ -162,12 +162,12 @@ class Hopkins:
         evaluation = self.evaluate(board)
         return evaluation if self.whites_turn(board) else -evaluation
 
-    @staticmethod
-    def quiesce(board: chess.Board, alpha: float, beta: float):
+    def quiesce(self, board: chess.Board, alpha: float, beta: float):
         """
         Searches quiet moves at the end of the depth to avoid "Horizon Effect" https://www.chessprogramming.org/Quiescence_Search
         """
-        pass
+        stand_pat = self.negamax_evaluation()
+        
 
 
     def minimax(self, board: chess.Board, alpha: float, beta: float, depth: int):
@@ -177,7 +177,8 @@ class Hopkins:
             return quiesce(alpha, beta)
 
         for move in board.legal_moves:
-            pass
+            board.push(move)
+            eval = -minimax(-beta, -alpha, depth - 1)
 
         # bestscore = -9999
         # if( depthleft == 0 ):
