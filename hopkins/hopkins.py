@@ -153,7 +153,14 @@ class Hopkins:
         material_eval = self.material_eval(board)
         piece_square_eval = self.piece_square_eval(board)
 
-        return (material_eval + piece_square_eval) / 10.0
+        return material_eval + piece_square_eval / 10.0
+
+    def negamax_evaluation(self, board: chess.Board) -> float:
+        """
+        Just returns evaluate from the point of view of the colour (ie: if it's black's turn and they are leading it will still show +)
+        """
+        evaluation = self.evaluate(board)
+        return evaluation if self.whites_turn(board) else -evaluation
 
     @staticmethod
     def quiesce(board: chess.Board, alpha: float, beta: float):
@@ -163,8 +170,29 @@ class Hopkins:
         pass
 
 
-    def minimax(self, board: chess.Board, alpha: float, beta: float):
-        pass
+    def minimax(self, board: chess.Board, alpha: float, beta: float, depth: int):
+        best_eval = -999999
+
+        if depth == 0:
+            return quiesce(alpha, beta)
+
+        for move in board.legal_moves:
+            pass
+
+        # bestscore = -9999
+        # if( depthleft == 0 ):
+        #     return quiesce( alpha, beta )
+        # for move in board.legal_moves:
+        #     board.push(move)
+        #     score = -alphabeta( -beta, -alpha, depthleft - 1 )
+        #     board.pop()
+        #     if( score >= beta ):
+        #         return score
+        #     if( score > bestscore ):
+        #         bestscore = score
+        #     if( score > alpha ):
+        #         alpha = score
+        # return bestscore
 
 
     def get_move(self, pos: str, depth: int):
